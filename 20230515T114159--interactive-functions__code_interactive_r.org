@@ -1,0 +1,25 @@
+#+title:      Interactive functions
+#+date:       [2023-05-15 Mon 11:41]
+#+filetags:   :code:interactive:r:
+#+identifier: 20230515T114159
+
+* R Snippets
+Helper functions for operating on scripts interactively.  None of
+these functions should be used in saved scripts or packages. They're
+primarily for debugging (other people's) code.
+
+** Change file-path to a writeable area in scratch
+#+begin_src r
+writeable <- function(here, writeable="/camp/stp/babs/scratch/kellyg/write-area") {
+  here_comps <- strsplit(here(here), split=.Platform$file.sep, fixed=TRUE)[[1]]
+  write_comps<- strsplit(writeable, split=.Platform$file.sep, fixed=TRUE)[[1]]
+  mlen <- min(length(here_comps), length(write_comps))
+  first_diff <- which(here_comps[1:mlen]!=write_comps[1:mlen])[1]
+  if (is.na(first_diff)) {
+    here
+  } else {
+    do.call(file.path, as.list(c(write_comps[1:first_diff], paste(here_comps[-(1:first_diff)], collapse="-"))))
+  }
+}  
+#+end_src
+

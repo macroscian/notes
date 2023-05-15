@@ -1,0 +1,14 @@
+#+title:      Data wrangling
+#+date:       [2023-05-15 Mon 14:38]
+#+filetags:   :r:tidyverse:wrangle:
+#+identifier: 20230515T143819
+
+* R Snippets
+** Convert long dframe to matrix
+
+#+begin_src r
+mat <- nested %>%
+  pivot_wider(id_cols="row-varname", names_from="col-varname",values_from="entry-varname") %>%
+  column_to_rownames("row-varname") %>%
+  data.matrix()
+#+end_src
